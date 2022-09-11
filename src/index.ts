@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { initializeMemeBot } from "./bot/meme";
+import { initializeWelcomeBot } from "./bot/welcome";
 import { env } from "./env";
 import { redisClient } from "./redis";
 
@@ -11,4 +12,7 @@ void (async () => {
 
   await initializeMemeBot();
   console.log(chalk.blue(`Meme Bot is initialized...`));
+
+  await initializeWelcomeBot();
+  console.log(chalk.blue(`Welcome Bot is initialized...`));
 })();
