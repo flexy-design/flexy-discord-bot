@@ -11,10 +11,8 @@ void (async () => {
   await redisClient.connect();
   console.log(chalk.blue(`Redis Database is connected...`));
 
-  if (process.env.DISCORD_BOT_TOKEN) {
-    console.log(chalk.blue(`Discord Bot is initialized...`));
-    client.login(process.env.DISCORD_BOT_TOKEN);
-  }
+  await client.login(env.discordBotToken);
+  console.log(chalk.blue(`Discord Bot is initialized...`));
 
   await initializeMemeBot();
   console.log(chalk.blue(`Meme Bot is initialized...`));
