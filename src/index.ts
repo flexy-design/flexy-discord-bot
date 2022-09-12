@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import { initializeMemeBot } from "./bot/meme";
 import { initializeWelcomeBot } from "./bot/welcome";
+import { client } from "./discord";
 import { env } from "./env";
 import { redisClient } from "./redis";
 
@@ -9,6 +10,11 @@ void (async () => {
 
   await redisClient.connect();
   console.log(chalk.blue(`Redis Database is connected...`));
+
+  if (process.env.DISCORD_BOT_TOKEN) {
+    console.log(chalk.blue(`Discord Bot is initialized...`));
+    client.login(process.env.DISCORD_BOT_TOKEN);
+  }
 
   await initializeMemeBot();
   console.log(chalk.blue(`Meme Bot is initialized...`));
