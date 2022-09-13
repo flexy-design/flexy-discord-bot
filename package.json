@@ -5,8 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
-    "test": "ts-node ./src/test.ts"
+    "start": "ts-node ./src/index.ts"
   },
   "repository": {
     "type": "git",
