@@ -9,4 +9,7 @@ export const env = {
   discordBotToken: process.env.DISCORD_BOT_TOKEN || "",
   introducesChannelId: process.env.INTRODUCES_CHANNEL_ID || "",
   cmsAdminToken: process.env.CMS_ADMIN_TOKEN || "",
+  accountIdOfS3: process.env.AWS_S3_ACCOUNT_ID || "",
+  accessKeyIdOfS3: process.env.AWS_S3_ACCESS_KEY || "",
+  secretAccessKeyOfS3: process.env.AWS_S3_SECRET_KEY || "",
 };

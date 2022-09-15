@@ -1,6 +1,15 @@
 import axios from "axios";
 import { client } from "../discord";
 import { env } from "../env";
+import cron from "node-cron";
+import { registerCommunityUser } from "../gql/registerCommunityUser";
+import { findHasntSentWelcome } from "../gql/findHasntSentWelcome";
+import { updateHasWelcomeSent } from "../gql/updateHasWelcomeSent";
+import { currentCommunityUserIndex } from "../gql/currentCommunityUserIndex";
+import { updateCommunityUserIndex } from "../gql/updateCommunityUserIndex";
+import { createWelcomeImage } from "../image";
+import { s3 } from "../s3";
+import { readFile } from "fs/promises";
 
 const welcomeText = `Hello **@blabla** thank you for joining **Flexy Design**! Welcome to the community as the **__111th user__**! :tada::tada:
 We'd appreciate it if you could leave your self-introduction on the #🎉｜introduces!
@@ -12,33 +21,118 @@ Our goal is to make sure that everyone can work flexibly and that the design tha
 We need your feedback and support to get this done! :relaxed:`;
 
 export const initializeWelcomeBot = () => {
+  // * New User Insert
   client.on("guildMemberAdd", async (member) => {
     const imageUrl = member.user.displayAvatarURL({
       extension: "png",
       size: 256,
     });
 
-    console.log("Testing...", {
-      imageUrl,
-      username: member.user.username,
-      id: member.id,
-      nickname: member.nickname,
-      avatar: member.avatar,
+    const result = await registerCommunityUser({
+      adminToken: env.cmsAdminToken,
+      communityId: member.id,
+      name: member.user.username,
+      profileUrl: imageUrl,
     });
 
-    await axios.post(env.welcomeWebHookUrl, {
-      content: welcomeText
-        .replace(`**@blabla**`, `**<@${member.id}>**`)
-        .replace("#🎉｜introduces", `<#${env.introducesChannelId}>`)
-        .replace(`**__111th user__**`, `**__111th user__**`),
-    });
+    console.log(
+      `New Community User Registered: "${member.user.username}" (${member.id}) [result: ${result.type}]`
+    );
+  });
 
-    await axios.post(env.memeWebHookUrl, {
-      content: `https://cdn.discordapp.com/attachments/1018494735490494545/1018504357769121963/Welcome.png`,
-    });
+  let isRunning = false;
+  // * cron every 10 second
+  cron.schedule("*/10 * * * * *", async () => {
+    if (isRunning) return;
+    try {
+      const { data: newUser } = await findHasntSentWelcome({
+        adminToken: env.cmsAdminToken,
+      });
+
+      const { index } =
+        (
+          await currentCommunityUserIndex({
+            adminToken: env.cmsAdminToken,
+          })
+        ).data ?? {};
+
+      if (newUser?.communityId && index !== undefined) {
+        console.log(
+          `[Welcome/(${index})] Sending Welcome Message to ${newUser.name}...`
+        );
+        await updateCommunityUserIndex({
+          adminToken: env.cmsAdminToken,
+          index: index + 1,
+        });
+
+        try {
+          const userImageLocalPath = await createWelcomeImage({
+            index,
+            imageUrl: newUser.profileUrl,
+            userName: newUser.name,
+          });
+
+          // read image for upload s3
+          const data = await readFile(userImageLocalPath);
+
+          // upload to s3
+          await s3
+            .putObject({
+              Bucket: "flexy-design",
+              Key: `community-welcome/${newUser.communityId}.png`,
+              Body: data,
+            })
+            .promise();
+
+          console.log(
+            `[Welcome/(${index})] Uploaded to R2: https://static.flexy.design/community-welcome/${newUser.id}.png`
+          );
+
+          // send to discord
+          await send({
+            imageUrl: `https://static.flexy.design/community-welcome/${newUser.communityId}.png`,
+            communityId: newUser.communityId,
+            index,
+          });
+
+          console.log(`[Welcome/(${index})] Sent to Discord`);
+
+          const result = await updateHasWelcomeSent({
+            id: newUser.id,
+            hasWelcomeSent: true,
+            adminToken: env.cmsAdminToken,
+            index: String(index),
+          });
+
+          console.log(`[Welcome/(${index})] result:`, result);
+        } catch (e) {
+          console.log("[Welcome] Error Occured. Skip this user.");
+        }
+      }
+    } catch (e) {
+      console.log("[Welcome] Error Occured. Skip this user.");
+    }
+    isRunning = false;
   });
 };
 
-export const send = async () => {
-  //
+export const send = async ({
+  imageUrl,
+  communityId,
+  index,
+}: {
+  imageUrl: string;
+  communityId: string;
+  index: number;
+}) => {
+  await axios.post(env.welcomeWebHookUrl, {
+    content: welcomeText
+      .replace(`**@blabla**`, `**<@${communityId}>**`)
+      .replace("#🎉｜introduces", `<#${env.introducesChannelId}>`)
+      .replace(`**__111th user__**`, `**__${index}th user__**`),
+  });
+
+  await axios.post(env.welcomeWebHookUrl, {
+    content: imageUrl,
+  });
 };

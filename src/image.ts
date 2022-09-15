@@ -24,7 +24,7 @@ export const createWelcomeImage = async (options: {
 
   const serveClose = await serveWelcomeTemplate();
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     defaultViewport: {
       width: 1100,
       height: 500,
