@@ -69,7 +69,7 @@ export const createWelcomeImage = async (options: {
   );
 
   await page.waitForResponse((response) => response.ok());
-  await page.waitForTimeout(2000);
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   await page.screenshot({
     path: screenshotPath,

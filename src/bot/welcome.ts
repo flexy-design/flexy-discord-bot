@@ -131,14 +131,18 @@ export const send = async ({
   communityId: string;
   index: number;
 }) => {
-  await axios.post(env.welcomeWebHookUrl, {
-    content: welcomeText
-      .replace(`**@blabla**`, `**<@${communityId}>**`)
-      .replace("#🎉｜introduces", `<#${env.introducesChannelId}>`)
-      .replace(`**__111th user__**`, `**__${index}th user__**`),
-  });
+  try {
+    await axios.post(env.welcomeWebHookUrl, {
+      content: welcomeText
+        .replace(`**@blabla**`, `**<@${communityId}>**`)
+        .replace("#🎉｜introduces", `<#${env.introducesChannelId}>`)
+        .replace(`**__111th user__**`, `**__${index}th user__**`),
+    });
 
-  await axios.post(env.welcomeWebHookUrl, {
-    content: imageUrl,
-  });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    await axios.post(env.welcomeWebHookUrl, {
+      content: imageUrl,
+    });
+  } catch (e) {}
 };
