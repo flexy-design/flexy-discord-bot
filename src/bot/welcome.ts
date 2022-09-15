@@ -10,6 +10,7 @@ import { updateCommunityUserIndex } from "../gql/updateCommunityUserIndex";
 import { createWelcomeImage } from "../image";
 import { s3 } from "../s3";
 import { readFile } from "fs/promises";
+import { nanoid } from "nanoid";
 
 const welcomeText = `Hello **@blabla** thank you for joining **Flexy Design**! Welcome to the community as the **__111th user__**! :tada::tada:
 We'd appreciate it if you could leave your self-introduction on the #🎉｜introduces!
@@ -81,22 +82,24 @@ export const initializeWelcomeBot = () => {
           // read image for upload s3
           const data = await readFile(userImageLocalPath);
 
+          const imageName = nanoid();
+
           // upload to s3
           await s3
             .putObject({
               Bucket: "flexy-design",
-              Key: `community-welcome/${newUser.communityId}.png`,
+              Key: `community-welcome/${newUser.communityId}_${imageName}.png`,
               Body: data,
             })
             .promise();
 
           console.log(
-            `[Welcome/(${index})] Uploaded to R2: https://static.flexy.design/community-welcome/${newUser.id}.png`
+            `[Welcome/(${index})] Uploaded to R2: https://static.flexy.design/community-welcome/${newUser.communityId}_${imageName}.png`
           );
 
           // send to discord
           await send({
-            imageUrl: `https://static.flexy.design/community-welcome/${newUser.communityId}.png`,
+            imageUrl: `https://static.flexy.design/community-welcome/${newUser.communityId}_${imageName}.png`,
             communityId: newUser.communityId,
             index,
           });
