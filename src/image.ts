@@ -68,6 +68,9 @@ export const createWelcomeImage = async (options: {
     `${options.index}.png`
   );
 
+  await page.waitForResponse((response) => response.ok());
+  await page.waitForTimeout(2000);
+
   await page.screenshot({
     path: screenshotPath,
   });
