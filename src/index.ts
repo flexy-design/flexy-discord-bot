@@ -3,6 +3,7 @@ import { initializeMemeBot } from "./bot/meme";
 import { initializeWelcomeBot } from "./bot/welcome";
 import { client } from "./discord";
 import { env } from "./env";
+import { registerHealthCheck } from "./health";
 import { redisClient } from "./redis";
 
 void (async () => {
@@ -19,4 +20,7 @@ void (async () => {
 
   await initializeWelcomeBot();
   console.log(chalk.blue(`Welcome Bot is initialized...`));
+
+  await registerHealthCheck();
+  console.log(chalk.blue(`Health Check is initialized...`));
 })();
