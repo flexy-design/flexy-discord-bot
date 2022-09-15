@@ -64,6 +64,9 @@ export const initializeWelcomeBot = () => {
           adminToken: env.cmsAdminToken,
           index: index + 1,
         });
+        console.log(
+          `[Welcome/(${index})] Updated Community User Index to ${index + 1}`
+        );
 
         try {
           const userImageLocalPath = await createWelcomeImage({
@@ -71,6 +74,9 @@ export const initializeWelcomeBot = () => {
             imageUrl: newUser.profileUrl,
             userName: newUser.name,
           });
+          console.log(
+            `[Welcome/(${index})] Created Welcome Image: ${userImageLocalPath}`
+          );
 
           // read image for upload s3
           const data = await readFile(userImageLocalPath);
@@ -106,11 +112,11 @@ export const initializeWelcomeBot = () => {
 
           console.log(`[Welcome/(${index})] result:`, result);
         } catch (e) {
-          console.log("[Welcome] Error Occured. Skip this user.");
+          console.log("[Welcome] Error Occured. Skip this user.", e);
         }
       }
     } catch (e) {
-      console.log("[Welcome] Error Occured. Skip this user.");
+      console.log("[Welcome] Error Occured. Skip this user.", e);
     }
     isRunning = false;
   });
