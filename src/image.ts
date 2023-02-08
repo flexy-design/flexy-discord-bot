@@ -43,8 +43,10 @@ export const createWelcomeImage = async (options: {
   await page.evaluate(
     (body, options) => {
       // Icon
-      body.querySelector("#prefix__b").href.baseVal =
-        options.imageUrl ?? "https://cdn.discordapp.com/embed/avatars/0.png";
+      const element = body.querySelector("#prefix__b") as any;
+      if (element)
+        element.href.baseVal =
+          options.imageUrl ?? "https://cdn.discordapp.com/embed/avatars/0.png";
 
       // Name
       const text = body.querySelector(
