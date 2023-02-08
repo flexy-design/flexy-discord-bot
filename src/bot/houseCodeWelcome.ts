@@ -26,6 +26,7 @@ A.I 를 이용한 자습을 하는 분들을 도울 멘토분들 역시 모집�
 export const initializeWelcomeBot = () => {
   // * New User Insert
   houseCodeClient.on("guildMemberAdd", async (member) => {
+    console.log("processing new user...", member);
     const imageUrl = member.user.displayAvatarURL({
       extension: "png",
       size: 256,
@@ -138,31 +139,7 @@ export const send = async ({
   communityId: string;
   index: number;
 }) => {
-  try {
-    await axios.post(env.welcomeWebHookUrl, {
-      content: welcomeText
-        .replace(`**@blabla**`, `**<@${communityId}>**`)
-        .replace("#🎉｜introduces", `<#${env.introducesChannelId}>`)
-        .replace(`**__111th user__**`, `**__${index}th user__**`),
-    });
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    await axios.post(env.welcomeWebHookUrl, {
-      content: imageUrl,
-    });
-  } catch (e) {}
-};
-
-export const sendToHouseCode = async ({
-  imageUrl,
-  communityId,
-  index,
-}: {
-  imageUrl: string;
-  communityId: string;
-  index: number;
-}) => {
+  console.log("send to discord", imageUrl, communityId, index);
   try {
     await axios.post(env.welcomeHouseWebHookUrl, {
       content: welcomeText
