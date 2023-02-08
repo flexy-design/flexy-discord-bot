@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { initializeMemeBot } from "./bot/meme";
 import { initializeWelcomeBot } from "./bot/welcome";
-import { client } from "./discord";
+import { client, houseCodeClient } from "./discord";
 import { env } from "./env";
 import { registerHealthCheck } from "./health";
 import { redisClient } from "./redis";
@@ -13,6 +13,7 @@ void (async () => {
   console.log(chalk.blue(`Redis Database is connected...`));
 
   await client.login(env.discordBotToken);
+  await houseCodeClient.login(env.houseCodeBotToken);
   console.log(chalk.blue(`Discord Bot is initialized...`));
 
   await initializeMemeBot();

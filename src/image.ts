@@ -5,11 +5,13 @@ import { existsSync, mkdirSync } from "fs";
 
 const folderPath = path.join(__dirname, "..", "export", "welcome-card");
 
-const serveWelcomeTemplate = () => {
+const serveWelcomeTemplate = (skin?: string) => {
   return new Promise<() => unknown>((resolve) => {
     const app = express();
     app.use(
-      express.static(path.join(__dirname, "..", "static", "welcome-card"))
+      express.static(
+        path.join(__dirname, "..", "static", skin ?? "welcome-card")
+      )
     );
     const sever = app.listen(4001, () => resolve(() => sever.close()));
   });
@@ -19,10 +21,12 @@ export const createWelcomeImage = async (options: {
   imageUrl?: string;
   userName: string;
   index: number;
+  skin?: string;
+  communityName?: string;
 }) => {
   if (!existsSync(folderPath)) mkdirSync(folderPath, { recursive: true });
 
-  const serveClose = await serveWelcomeTemplate();
+  const serveClose = await serveWelcomeTemplate(options.skin);
   const browser = await puppeteer.launch({
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -48,7 +52,7 @@ export const createWelcomeImage = async (options: {
       );
       text.textContent = `${
         options.userName ? `“${options.userName}” ` : ""
-      }Welcome to the Flexy Design!`;
+      }Welcome to the ${options.communityName ?? "Flexy Design"}!`;
 
       // Index
       const index = body.querySelector('[data-name="Member #0"]');
@@ -64,7 +68,7 @@ export const createWelcomeImage = async (options: {
     __dirname,
     "..",
     "export",
-    "welcome-card",
+    options.communityName ?? "Flexy Design",
     `${options.index}.png`
   );
 
