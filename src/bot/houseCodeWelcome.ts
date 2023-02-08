@@ -14,12 +14,12 @@ import { registerHouseCodeUser } from "../gql/registerHouseCodeUser";
 import { findHouseHasntSentWelcome } from "../gql/findHouseHasntSentWelcome";
 import { updateHouseHasWelcomeSent } from "../gql/updateHouseHasWelcomeSent";
 
-const welcomeText = `안녕하세요 **@blabla** 님! **HouseCode** 에 참여해주셔서 감사드려요! 커뮤니티에 **__111th user__** 번째로 참여해주셨어요! :tada::tada:
+const welcomeText = `안녕하세요 **@blabla** 님! **HouseCode** 에 참여해주셔서 감사드려요! 커뮤니티에 **__111th user__** 로 참여해주셨어요! :tada::tada:
 커뮤니티 활동 전 반드시 housecode.org 에 등록된 필수 가이드를 읽어주세요!
 
 배울때 내가 배우는 것을 남에게 공유하는 경험은 꼭 필요한 과정이고, 마찬가지로 남이 공부하는 모습을 보는 것 역시 너무 소중한 경험이에요.
 
-A.I 에게 받은 좋은 답변을 남에게 공유함과 동시에 이러한 경험을 하게되면서 좋은 정보가 쌓여 서로 시너지를 받아서 공부에 더욱 가속도가 붙게 만들 수 있을거라 생각해요.
+A.I 에게 받은 좋은 답변을 남에게 공유함과 동시에 이러한 경험을 하게 되면서 좋은 정보가 쌓여 서로 시너지를 받아서 공부에 더욱 가속도가 붙게 만들 수 있을거라 생각해요.
 
 A.I 를 이용한 자습을 하는 분들을 도울 멘토분들 역시 모집하고 있으니 참여를 부탁드려요! :relaxed:`;
 
@@ -145,7 +145,7 @@ export const send = async ({
       content: welcomeText
         .replace(`**@blabla**`, `**<@${communityId}>**`)
         .replace("#🎉｜introduces", `<#${env.introducesChannelId}>`)
-        .replace(`**__111th user__**`, `**__${index}th user__**`),
+        .replace(`**__111th user__**`, `**__${index}번째 참여자__**`),
     });
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
