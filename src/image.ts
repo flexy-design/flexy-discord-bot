@@ -24,7 +24,13 @@ export const createWelcomeImage = async (options: {
   skin?: string;
   communityName?: string;
 }) => {
-  if (!existsSync(folderPath)) mkdirSync(folderPath, { recursive: true });
+  const imageFolderPath = path.join(
+    __dirname,
+    "..",
+    "export",
+    options.communityName ?? "Flexy Design"
+  );
+  if (!existsSync(folderPath)) mkdirSync(imageFolderPath, { recursive: true });
 
   const serveClose = await serveWelcomeTemplate(options.skin);
   const browser = await puppeteer.launch({
