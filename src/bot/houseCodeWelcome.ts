@@ -1,16 +1,18 @@
 import axios from "axios";
 import { env } from "../env";
 import cron from "node-cron";
-import { registerCommunityUser } from "../gql/registerCommunityUser";
-import { findHasntSentWelcome } from "../gql/findHasntSentWelcome";
-import { updateHasWelcomeSent } from "../gql/updateHasWelcomeSent";
-import { updateCommunityUserIndex } from "../gql/updateCommunityUserIndex";
+
 import { createWelcomeImage } from "../image";
 import { s3 } from "../s3";
 import { readFile } from "fs/promises";
 import { nanoid } from "nanoid";
-import { currentHouseCodeUserIndex } from "../gql/currentHouseCodeUserIndex";
 import { houseCodeClient } from "../discord";
+
+import { currentHouseCodeUserIndex } from "../gql/currentHouseCodeUserIndex";
+import { updateHouseCodeUserIndex } from "../gql/updateHouseCodeUserIndex";
+import { registerHouseCodeUser } from "../gql/registerHouseCodeUser";
+import { findHouseHasntSentWelcome } from "../gql/findHouseHasntSentWelcome";
+import { updateHouseHasWelcomeSent } from "../gql/updateHouseHasWelcomeSent";
 
 const welcomeText = `안녕하세요 **@blabla** 님! **HouseCode** 에 참여해주셔서 감사드려요! 커뮤니티에 **__111th user__** 번째로 참여해주셨어요! :tada::tada:
 커뮤니티 활동 전 반드시 https://housecode.org/ai-guide 의 가이드를 읽어주세요!
@@ -29,7 +31,7 @@ export const initializeWelcomeBot = () => {
       size: 256,
     });
 
-    const result = await registerCommunityUser({
+    const result = await registerHouseCodeUser({
       adminToken: env.cmsAdminToken,
       communityId: member.id,
       name: member.user.username,
@@ -46,7 +48,7 @@ export const initializeWelcomeBot = () => {
   cron.schedule("*/10 * * * * *", async () => {
     if (isRunning) return;
     try {
-      const { data: newUser } = await findHasntSentWelcome({
+      const { data: newUser } = await findHouseHasntSentWelcome({
         adminToken: env.cmsAdminToken,
       });
 
@@ -61,7 +63,7 @@ export const initializeWelcomeBot = () => {
         console.log(
           `[Welcome/(${index})] Sending Welcome Message to ${newUser.name}...`
         );
-        await updateCommunityUserIndex({
+        await updateHouseCodeUserIndex({
           adminToken: env.cmsAdminToken,
           index: index + 1,
         });
@@ -108,7 +110,7 @@ export const initializeWelcomeBot = () => {
 
           console.log(`[Welcome/(${index})] Sent to Discord`);
 
-          const result = await updateHasWelcomeSent({
+          const result = await updateHouseHasWelcomeSent({
             id: newUser.id,
             hasWelcomeSent: true,
             adminToken: env.cmsAdminToken,
