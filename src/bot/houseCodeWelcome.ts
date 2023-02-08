@@ -15,7 +15,7 @@ import { findHouseHasntSentWelcome } from "../gql/findHouseHasntSentWelcome";
 import { updateHouseHasWelcomeSent } from "../gql/updateHouseHasWelcomeSent";
 
 const welcomeText = `안녕하세요 **@blabla** 님! **HouseCode** 에 참여해주셔서 감사드려요! 커뮤니티에 **__111th user__** 번째로 참여해주셨어요! :tada::tada:
-커뮤니티 활동 전 반드시 https://housecode.org/ai-guide 의 가이드를 읽어주세요!
+커뮤니티 활동 전 반드시 housecode.org 에 등록된 필수 가이드를 읽어주세요!
 
 배울때 내가 배우는 것을 남에게 공유하는 경험은 꼭 필요한 과정이고, 마찬가지로 남이 공부하는 모습을 보는 것 역시 너무 소중한 경험이에요.
 
