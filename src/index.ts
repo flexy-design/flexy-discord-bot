@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { initializeHouseWelcomeBot } from "./bot/houseCodeWelcome";
 import { initializeMemeBot } from "./bot/meme";
 import { initializeWelcomeBot } from "./bot/welcome";
 import { client, houseCodeClient } from "./discord";
@@ -20,6 +21,7 @@ void (async () => {
   console.log(chalk.blue(`Meme Bot is initialized...`));
 
   await initializeWelcomeBot();
+  await initializeHouseWelcomeBot();
   console.log(chalk.blue(`Welcome Bot is initialized...`));
 
   await registerHealthCheck();

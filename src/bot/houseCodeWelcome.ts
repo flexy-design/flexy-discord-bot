@@ -23,7 +23,7 @@ A.I 에게 받은 좋은 답변을 남에게 공유함과 동시에 이러한 �
 
 A.I 를 이용한 자습을 하는 분들을 도울 멘토분들 역시 모집하고 있으니 참여를 부탁드려요! :relaxed:`;
 
-export const initializeWelcomeBot = () => {
+export const initializeHouseWelcomeBot = () => {
   // * New User Insert
   houseCodeClient.on("guildMemberAdd", async (member) => {
     console.log("processing new user...", member);
