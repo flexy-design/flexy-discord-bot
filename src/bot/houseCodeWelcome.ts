@@ -23,6 +23,16 @@ A.I 에게 받은 좋은 답변을 남에게 공유함과 동시에 이러한 �
 
 A.I 를 이용한 자습을 하는 분들을 도울 멘토분들 역시 모집하고 있으니 참여를 부탁드려요! :relaxed:`;
 
+const dinnerText = ` <@everyone>
+
+오늘 하루도 다들 고생하셨어요! ☺️ 벌써 9시네요!
+보람찬 하루를 만들기 위해서, 저녁을 마무리 할 겸
+궁금한 것을 인공지능에게 묻고
+공부방에 공유해보는 시간을 가지봐요!
+여러분들의 내일 하루도 화이팅입니다! 💪
+
+Chat GPT -> https://chat.openai.com`;
+
 export const initializeHouseWelcomeBot = () => {
   // * New User Insert
   houseCodeClient.on("guildMemberAdd", async (member) => {
@@ -45,6 +55,21 @@ export const initializeHouseWelcomeBot = () => {
   });
 
   let isRunning = false;
+
+  // * cron every 21:30 (UTC+9)
+  cron.schedule(
+    "0 32 21 * * *",
+    async () => {
+      await axios.post(env.welcomeHouseWebHookUrl, {
+        content: dinnerText,
+      });
+    },
+    {
+      scheduled: true,
+      timezone: "Asia/Seoul",
+    }
+  );
+
   // * cron every 10 second
   cron.schedule("*/10 * * * * *", async () => {
     if (isRunning) return;
