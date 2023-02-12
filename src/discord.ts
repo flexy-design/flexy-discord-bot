@@ -10,5 +10,6 @@ export const houseCodeClient = new Client({
     GatewayIntentBits.GuildInvites,
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
   ],
 });

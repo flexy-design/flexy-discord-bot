@@ -8,8 +8,14 @@ const questionChannelId = "1073524923844284447";
 
 export const initializeChatGPTBot = async () => {
   // TODO 1단계 테스트 채널에서 디스코드 채팅을 읽어오기
+  // TODO 추가 사항: 메세지에 이미지가 포함되어 있으면 넘기기
   houseCodeClient.on("messageCreate", (message: Message) => {
     if (message.author.bot) return;
+    const isMessageHaveImage = message.attachments.size > 0;
+    if (isMessageHaveImage) {
+      console.log("Message have image pass.");
+      return;
+    }
     if (message.channel.id === questionChannelId) {
       console.log(
         `Message from ${message.author.username}: ${message.content}`
