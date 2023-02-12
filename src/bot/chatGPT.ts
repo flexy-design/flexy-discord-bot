@@ -14,6 +14,7 @@ export const initializeChatGPTBot = async () => {
       console.log(
         `Message from ${message.author.username}: ${message.content}`
       );
+      message.reply("Hello there! You sended" + message.content + "to me!");
     }
 
     // TODO 2단계 채팅에 답장 스레드 만들어서 메세지 작성하기
