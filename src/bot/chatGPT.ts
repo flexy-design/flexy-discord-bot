@@ -5,7 +5,7 @@ import type { Message } from "discord.js";
 import { houseCodeClient } from "../discord";
 import { questionToAI } from "../gpt";
 
-const questionChannelId = "1073524923844284447";
+const questionChannelId = "1072405270996733992";
 
 export const initializeChatGPTBot = async () => {
   // * 테스트 채널에서 디스코드 채팅을 읽어오기
@@ -18,11 +18,7 @@ export const initializeChatGPTBot = async () => {
 
     // * 채팅에 답장 스레드 만들어서 메세지 작성하기
     if (message.channel.id === questionChannelId) {
-      // message.reply("Hello there! You sended" + message.content + "to me!");
-      // TODO 3단계 채팅을 읽어와서 인공지능에게 질문하기
-      // TODO 4단계 인공지능이 답변한 내용 정제하기
-      // TODO 5단계 2단계의 코드에 결과물로 병합시키기
-
+      // * 3단계 채팅을 읽어와서 인공지능에게 질문하기
       try {
         const text = await questionToAI(message.content);
         message.reply(text);
