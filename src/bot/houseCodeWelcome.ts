@@ -36,7 +36,6 @@ Chat GPT -> https://chat.openai.com`;
 export const initializeHouseWelcomeBot = () => {
   // * New User Insert
   houseCodeClient.on("guildMemberAdd", async (member) => {
-    console.log("processing new user...", member);
     const imageUrl = member.user.displayAvatarURL({
       extension: "png",
       size: 256,
@@ -48,10 +47,6 @@ export const initializeHouseWelcomeBot = () => {
       name: member.user.username,
       profileUrl: imageUrl,
     });
-
-    console.log(
-      `New Community User Registered: "${member.user.username}" (${member.id}) [result: ${result.type}]`
-    );
   });
 
   let isRunning = false;
@@ -86,16 +81,10 @@ export const initializeHouseWelcomeBot = () => {
         ).data ?? {};
 
       if (newUser?.communityId && index !== undefined) {
-        console.log(
-          `[Welcome/(${index})] Sending Welcome Message to ${newUser.name}...`
-        );
         await updateHouseCodeUserIndex({
           adminToken: env.cmsAdminToken,
           index: index + 1,
         });
-        console.log(
-          `[Welcome/(${index})] Updated Community User Index to ${index + 1}`
-        );
 
         try {
           const userImageLocalPath = await createWelcomeImage({
@@ -105,9 +94,6 @@ export const initializeHouseWelcomeBot = () => {
             communityName: "HouseCode",
             skin: "house-welcome-card",
           });
-          console.log(
-            `[Welcome/(${index})] Created Welcome Image: ${userImageLocalPath}`
-          );
 
           // read image for upload s3
           const data = await readFile(userImageLocalPath);
@@ -164,7 +150,6 @@ export const send = async ({
   communityId: string;
   index: number;
 }) => {
-  console.log("send to discord", imageUrl, communityId, index);
   try {
     await axios.post(env.welcomeHouseWebHookUrl, {
       content: welcomeText

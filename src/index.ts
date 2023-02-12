@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { initializeChatGPTBot } from "./bot/chatGPT";
 import { initializeHouseWelcomeBot } from "./bot/houseCodeWelcome";
 import { initializeMemeBot } from "./bot/meme";
 import { initializeWelcomeBot } from "./bot/welcome";
@@ -26,4 +27,7 @@ void (async () => {
 
   await registerHealthCheck();
   console.log(chalk.blue(`Health Check is initialized...`));
+
+  await initializeChatGPTBot();
+  console.log(chalk.blue(`Chat GPT Bot is initialized...`));
 })();
