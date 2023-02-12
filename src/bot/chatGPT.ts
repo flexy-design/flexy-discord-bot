@@ -23,8 +23,8 @@ export const initializeChatGPTBot = async () => {
       // TODO 4단계 인공지능이 답변한 내용 정제하기
       // TODO 5단계 2단계의 코드에 결과물로 병합시키기
 
-      const text = await questionToAI(message.content);
       try {
+        const text = await questionToAI(message.content);
         message.reply(text);
       } catch (e) {
         console.log(e);
