@@ -12,6 +12,10 @@ export const initializeChatGPTBot = async () => {
   houseCodeClient.on("messageCreate", async (message: Message) => {
     if (message.author.bot) return;
 
+    // * 메세지에 sharegpt.com 이 포함되어 있으면 넘기기
+    const isMessageHaveSharegpt = /sharegpt\.com/g.test(message.content);
+    if (isMessageHaveSharegpt) return;
+
     // * 메세지에 이미지가 포함되어 있으면 넘기기
     const isMessageHaveImage = message.attachments.size > 0;
     if (isMessageHaveImage) return;
