@@ -8,7 +8,8 @@ const questionChannelId = "1073524923844284447";
 
 export const initializeChatGPTBot = async () => {
   // TODO 1단계 테스트 채널에서 디스코드 채팅을 읽어오기
-  houseCodeClient.on("message", (message: Message) => {
+  houseCodeClient.on("messageCreate", (message: Message) => {
+    if (message.author.bot) return;
     if (message.channel.id === questionChannelId) {
       console.log(
         `Message from ${message.author.username}: ${message.content}`
