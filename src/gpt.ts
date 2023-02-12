@@ -23,6 +23,7 @@ export const questionToAI = async (question: string) => {
   const completion = await openai.createCompletion({
     model: "text-davinci-003",
     prompt: questionPrompt + question,
+    max_tokens: 1000,
   });
   console.log(completion.data.choices[0].text);
   console.log(completion.data.choices);
