@@ -37,7 +37,9 @@ export const initializeFortuneBot = async () => {
     const today = dayjs().format("YYYY-MM-DD");
 
     if (lastDate === today) {
-      interaction.editReply("오늘은 이미 운세를 보셨어요.");
+      interaction.editReply(
+        "오늘은 이미 운세를 보셨어요. 내일 다시 시도해주세요!"
+      );
       return;
     }
 
