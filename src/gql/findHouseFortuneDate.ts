@@ -60,8 +60,8 @@ export const findHouseFortuneDate = async ({
       },
     }
   );
-  const foundedUserCommunityId = userData?.data?.communityUser?.communityId;
-  const foundedLastDate = userData?.data?.communityUser?.lastDate;
+  const foundedUserCommunityId = userData?.data?.houseUserFortune?.communityId;
+  const foundedLastDate = userData?.data?.houseUserFortune?.lastDate;
 
   if (foundedUserCommunityId === communityId)
     return { type: "success", lastDate: foundedLastDate };
