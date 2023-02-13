@@ -46,7 +46,7 @@ const fortunePrompt = `"---" 점술가처럼 오늘의 운세를 점지해 줘
 export const getFortune = async () => {
   const completion = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: questionPrompt,
+    prompt: fortunePrompt,
     max_tokens: 1000,
   });
 
