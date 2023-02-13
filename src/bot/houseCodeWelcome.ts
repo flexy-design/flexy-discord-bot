@@ -86,15 +86,6 @@ export const initializeHouseWelcomeBot = () => {
           index: index + 1,
         });
 
-        const result = await updateHouseHasWelcomeSent({
-          id: newUser.id,
-          hasWelcomeSent: true,
-          adminToken: env.cmsAdminToken,
-          index: String(index),
-        });
-
-        console.log(`[Welcome/(${index})] result:`, result);
-
         try {
           const userImageLocalPath = await createWelcomeImage({
             index,
@@ -130,6 +121,15 @@ export const initializeHouseWelcomeBot = () => {
           });
 
           console.log(`[Welcome/(${index})] Sent to Discord`);
+
+          const result = await updateHouseHasWelcomeSent({
+            id: newUser.id,
+            hasWelcomeSent: true,
+            adminToken: env.cmsAdminToken,
+            index: String(index),
+          });
+
+          console.log(`[Welcome/(${index})] result:`, result);
         } catch (e) {
           console.log("[Welcome] Error Occured. Skip this user.", e);
         }
