@@ -1,6 +1,7 @@
 import { Events } from "discord.js";
 import { houseCodeClient } from "../discord";
 import { env } from "../env";
+import { getFortune } from "../gpt";
 import { findHouseFortuneDate } from "../gql/findHouseFortuneDate";
 
 export const initializeFortuneBot = async () => {
@@ -21,5 +22,7 @@ export const initializeFortuneBot = async () => {
     console.log({
       lastFoundedDate,
     });
+
+    // interaction.reply(await getFortune());
   });
 };
