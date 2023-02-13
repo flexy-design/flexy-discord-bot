@@ -11,7 +11,7 @@ export const findHouseFortuneDateQuery = `query ($communityId: String!) {
 }`;
 
 export const createHouseFortuneDateQuery = `mutation ($communityId: String!, $lastDate: String!) {
-  createHouseUserFortune(where: {communityId: $communityId}, data: {
+  createHouseUserFortune(data: {
     lastDate: $lastDate,
     communityId: $communityId
   }) {
