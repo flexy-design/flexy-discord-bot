@@ -18,8 +18,6 @@ export const initializeFortuneBot = async () => {
 
     const userId = interaction.user.id;
 
-    interaction.reply("운세를 보여줄거에요 관리자님 어서 개발해주세요.");
-
     const { lastDate } = await findHouseFortuneDate({
       communityId: userId,
       adminToken: env.cmsAdminToken,
@@ -38,8 +36,7 @@ export const initializeFortuneBot = async () => {
       return;
     }
 
-    interaction.reply(await getFortune());
-
+    await interaction.reply(await getFortune());
     await updateHouseFortuneDate({
       communityId: userId,
       lastDate: today,
