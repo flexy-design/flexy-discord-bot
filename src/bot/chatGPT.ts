@@ -10,7 +10,8 @@ const questionChannelId = "1072405270996733992";
 export const initializeChatGPTBot = async () => {
   // * 테스트 채널에서 디스코드 채팅을 읽어오기
   houseCodeClient.on("messageCreate", async (message: Message) => {
-    if (message.author.bot) return;
+    // * 나 자신이면 패스
+    if (message.author.id === houseCodeClient.user.id) return;
 
     // * 메세지에 sharegpt.com 이 포함되어 있으면 넘기기
     const isMessageHaveSharegpt = /sharegpt\.com/g.test(message.content);
