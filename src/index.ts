@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { initializeChatGPTBot } from "./bot/chatGPT";
+import { initializeFortuneBot } from "./bot/fortune";
 import { initializeHouseWelcomeBot } from "./bot/houseCodeWelcome";
 import { initializeMemeBot } from "./bot/meme";
 import { initializeWelcomeBot } from "./bot/welcome";
@@ -30,4 +31,7 @@ void (async () => {
 
   await initializeChatGPTBot();
   console.log(chalk.blue(`Chat GPT Bot is initialized...`));
+
+  await initializeFortuneBot();
+  console.log(chalk.blue(`Fortune Bot is initialized...`));
 })();
