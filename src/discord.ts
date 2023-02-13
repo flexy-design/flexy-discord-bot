@@ -22,10 +22,10 @@ export const houseCodeClient = new Client({
 export const houseCodeCommands = new Collection();
 (client as any).commands = houseCodeCommands;
 
-houseCodeCommands.set("fortune", {
+houseCodeCommands.set("운세", {
   data: new SlashCommandBuilder()
-    .setName("fortune")
-    .setDescription("운세를 봅니다."),
+    .setName("운세")
+    .setDescription("하루 한 번 내 운세를 봅니다."),
   async execute(interaction) {
     await interaction.reply("운세를 봅니다.");
   },
