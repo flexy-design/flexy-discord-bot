@@ -3,7 +3,7 @@ import { endpoint } from "./constant";
 import { login } from "./login";
 
 export const findHouseHasntSentWelcomeQuery = `query ($communityId: String!) {
-  houseUserFortunes(where: {communityId: $communityId) {
+  houseUserFortune(where: {communityId: $communityId) {
     id
     lastDate
     communityId
