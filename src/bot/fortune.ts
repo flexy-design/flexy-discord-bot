@@ -27,6 +27,11 @@ export const initializeFortuneBot = async () => {
       lastDate,
     });
 
+    await interaction.deferReply();
+    await interaction.editReply({
+      content: "운세를 보고있는 중입니다...",
+    });
+
     // get YYYY-MM-DD
     const today = dayjs().format("YYYY-MM-DD");
     console.log({ today });
@@ -36,7 +41,9 @@ export const initializeFortuneBot = async () => {
       return;
     }
 
-    await interaction.reply(await getFortune());
+    await interaction.editReply({
+      content: await getFortune(),
+    });
     await updateHouseFortuneDate({
       communityId: userId,
       lastDate: today,

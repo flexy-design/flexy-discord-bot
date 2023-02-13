@@ -93,9 +93,9 @@ export const updateHouseFortuneDate = async ({
     }
   );
   const updateHouseUserFortune = userData?.data?.updateHouseUserFortune;
-  if (updateHouseUserFortune) return { type: "success" };
   console.log({
     updateHouseUserFortune,
   });
+  if (updateHouseUserFortune) return { type: "success" };
   return { type: "error" };
 };
