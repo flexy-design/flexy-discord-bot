@@ -2,9 +2,20 @@ import axios from "axios";
 import { endpoint } from "./constant";
 import { login } from "./login";
 
-export const findHouseHasntSentWelcomeQuery = `query ($communityId: String!) {
+export const findHouseFortuneDateQuery = `query ($communityId: String!) {
   houseUserFortune(where: {communityId: $communityId}){
     id
+    lastDate
+    communityId
+  }
+}`;
+
+export const updateHouseFortuneDateQuery = `mutation ($communityId: String!, $lastDate: String!) {
+  updateHouseUserFortune(where: {id: $id}, data: {
+    id: $id,
+    lastDate: $lastDate,
+    communityId: $communityId
+  }) {
     lastDate
     communityId
   }
@@ -29,7 +40,7 @@ export const findHouseFortuneDate = async ({
   const { data: userData } = await axios.post(
     endpoint,
     {
-      query: findHouseHasntSentWelcomeQuery,
+      query: findHouseFortuneDateQuery,
       variables: {
         communityId,
       },
@@ -47,4 +58,44 @@ export const findHouseFortuneDate = async ({
     return { type: "success", lastDate: foundedLastDate };
 
   return { type: "new" };
+};
+
+export const updateHouseFortuneDate = async ({
+  communityId,
+  lastDate,
+  adminToken,
+}: {
+  communityId: string;
+  lastDate: string;
+  adminToken: string;
+}): Promise<{
+  type: "success" | "error";
+}> => {
+  const [email, password] = adminToken.split(":");
+  const cookie = await login({
+    email,
+    password,
+  });
+
+  const { data: userData } = await axios.post(
+    endpoint,
+    {
+      query: updateHouseFortuneDateQuery,
+      variables: {
+        communityId,
+        lastDate,
+      },
+    },
+    {
+      headers: {
+        cookie,
+      },
+    }
+  );
+  const updateHouseUserFortune = userData?.data?.updateHouseUserFortune;
+  if (updateHouseUserFortune) return { type: "success" };
+  console.log({
+    updateHouseUserFortune,
+  });
+  return { type: "error" };
 };
