@@ -43,15 +43,15 @@ export const initializeFortuneBot = async () => {
       return;
     }
 
-    await interaction.editReply({
-      content: await getFortune(),
-    });
-
     await updateHouseFortuneDate({
       communityId: userId,
       lastDate: today,
       adminToken: env.cmsAdminToken,
       isFirstTime,
+    });
+
+    await interaction.editReply({
+      content: await getFortune(),
     });
   });
 };

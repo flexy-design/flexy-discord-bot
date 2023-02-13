@@ -105,7 +105,10 @@ export const updateHouseFortuneDate = async ({
       },
     }
   );
-  const updateHouseUserFortune = userData?.data?.updateHouseUserFortune;
+  const updateHouseUserFortune = isFirstTime
+    ? userData?.data?.createHouseUserFortune
+    : userData?.data?.updateHouseUserFortune;
+
   console.log({
     updateHouseUserFortune,
   });
