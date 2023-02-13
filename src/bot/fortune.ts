@@ -34,12 +34,10 @@ export const initializeFortuneBot = async () => {
       content: "운세를 보고있는 중입니다...",
     });
 
-    // get YYYY-MM-DD
     const today = dayjs().format("YYYY-MM-DD");
-    console.log({ today });
 
     if (lastDate === today) {
-      interaction.reply("오늘은 이미 운세를 보셨어요.");
+      interaction.editReply("오늘은 이미 운세를 보셨어요.");
       return;
     }
 
@@ -51,7 +49,7 @@ export const initializeFortuneBot = async () => {
     });
 
     await interaction.editReply({
-      content: await getFortune(),
+      content: `<@${interaction.user.id}> ${await getFortune()}`,
     });
   });
 };
