@@ -25,8 +25,12 @@ export const initializeChatGPTBot = async () => {
     if (message.channel.id === questionChannelId) {
       // * 3단계 채팅을 읽어와서 인공지능에게 질문하기
       try {
+        const replyMessage = await message.reply(
+          "인공지능이 답변을 처리하는 중이에요..."
+        );
         const text = await questionToAI(message.content);
-        message.reply(text);
+        await replyMessage.edit(text);
+        await message.react("👍");
       } catch (e) {
         console.log(e);
         message.reply(
