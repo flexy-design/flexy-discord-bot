@@ -10,6 +10,16 @@ export const findHouseFortuneDateQuery = `query ($communityId: String!) {
   }
 }`;
 
+export const createHouseFortuneDateQuery = `mutation ($communityId: String!, $lastDate: String!) {
+  createHouseUserFortune(where: {communityId: $communityId}, data: {
+    lastDate: $lastDate,
+    communityId: $communityId
+  }) {
+    lastDate
+    communityId
+  }
+}`;
+
 export const updateHouseFortuneDateQuery = `mutation ($communityId: String!, $lastDate: String!) {
   updateHouseUserFortune(where: {communityId: $communityId}, data: {
     lastDate: $lastDate,
@@ -63,10 +73,12 @@ export const updateHouseFortuneDate = async ({
   communityId,
   lastDate,
   adminToken,
+  isFirstTime,
 }: {
   communityId: string;
   lastDate: string;
   adminToken: string;
+  isFirstTime: boolean;
 }): Promise<{
   type: "success" | "error";
 }> => {
@@ -79,7 +91,9 @@ export const updateHouseFortuneDate = async ({
   const { data: userData } = await axios.post(
     endpoint,
     {
-      query: updateHouseFortuneDateQuery,
+      query: isFirstTime
+        ? createHouseFortuneDateQuery
+        : updateHouseFortuneDateQuery,
       variables: {
         communityId,
         lastDate,

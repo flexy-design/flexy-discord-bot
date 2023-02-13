@@ -27,6 +27,8 @@ export const initializeFortuneBot = async () => {
       lastDate,
     });
 
+    const isFirstTime = lastDate === undefined;
+
     await interaction.deferReply();
     await interaction.editReply({
       content: "운세를 보고있는 중입니다...",
@@ -44,10 +46,12 @@ export const initializeFortuneBot = async () => {
     await interaction.editReply({
       content: await getFortune(),
     });
+
     await updateHouseFortuneDate({
       communityId: userId,
       lastDate: today,
       adminToken: env.cmsAdminToken,
+      isFirstTime,
     });
   });
 };
