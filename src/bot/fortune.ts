@@ -39,15 +39,14 @@ export const initializeFortuneBot = async () => {
       return;
     }
     try {
+      await interaction.editReply({
+        content: `<@${interaction.user.id}> ${await getFortune()}`,
+      });
       await updateHouseFortuneDate({
         communityId: userId,
         lastDate: today,
         adminToken: env.cmsAdminToken,
         isFirstTime,
-      });
-
-      await interaction.editReply({
-        content: `<@${interaction.user.id}> ${await getFortune()}`,
       });
     } catch (e) {
       await interaction.editReply({
