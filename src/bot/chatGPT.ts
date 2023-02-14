@@ -4,6 +4,7 @@
 import type { Message } from "discord.js";
 import { houseCodeClient } from "../discord";
 import { questionToAI } from "../gpt";
+import { getShortUrl } from "../shortUrl";
 
 const questionChannelId = "1072405270996733992";
 
@@ -33,9 +34,11 @@ export const initializeChatGPTBot = async () => {
 
       try {
         const text = await questionToAI(message.content);
-        if (encodedQuestion.length <= 600) {
+        if (encodedQuestion.length <= 1000) {
           await replyMessage.edit(
-            `${text}\n\nPerplexity A.I 검색결과: ${perplexityUrl}`
+            `${text}\n\nPerplexity A.I 검색결과: ${await getShortUrl(
+              perplexityUrl
+            )}`
           );
         } else {
           await replyMessage.edit(text);
@@ -47,14 +50,14 @@ export const initializeChatGPTBot = async () => {
         if (random === 3) await message.react("🙏");
       } catch (e) {
         console.log(e);
-        if (encodedQuestion.length > 600) {
+        if (encodedQuestion.length > 1000) {
           replyMessage.edit(
             "Open AI 서버가 현재 트래픽이 많아 연결이 어렵다네요.\n조금 있다가 다시 시도해주시면 응답해드릴게요!"
           );
         } else {
           replyMessage.edit(
             "Open AI 서버가 현재 트래픽이 많아 연결이 어렵다네요.\n대신 Perplexity A.I 에서 검색결과를 보여드릴게요!\n\n" +
-              perplexityUrl
+              (await getShortUrl(perplexityUrl))
           );
         }
       }
