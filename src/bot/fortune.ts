@@ -38,16 +38,22 @@ export const initializeFortuneBot = async () => {
       );
       return;
     }
+    try {
+      await updateHouseFortuneDate({
+        communityId: userId,
+        lastDate: today,
+        adminToken: env.cmsAdminToken,
+        isFirstTime,
+      });
 
-    await updateHouseFortuneDate({
-      communityId: userId,
-      lastDate: today,
-      adminToken: env.cmsAdminToken,
-      isFirstTime,
-    });
-
-    await interaction.editReply({
-      content: `<@${interaction.user.id}> ${await getFortune()}`,
-    });
+      await interaction.editReply({
+        content: `<@${interaction.user.id}> ${await getFortune()}`,
+      });
+    } catch (e) {
+      await interaction.editReply({
+        content:
+          "Open AI 서버가 현재 트래픽이 많아 연결이 어렵다네요.\n조금 있다가 다시 시도해주시면 응답해드릴게요!",
+      });
+    }
   });
 };
