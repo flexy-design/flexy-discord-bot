@@ -33,7 +33,14 @@ export const initializeChatGPTBot = async () => {
       const perplexityUrl = `https://www.perplexity.ai/?q=${encodedQuestion}`;
 
       try {
-        const text = await questionToAI(message.content);
+        let text = await questionToAI(message.content);
+        if (text && text.split("\n")[0].length === 1) {
+          const textArray = text.split("\n");
+          textArray.shift();
+          text = textArray.join("\n");
+          text = text.trim();
+        }
+
         if (encodedQuestion.length <= 1000) {
           await replyMessage.edit(
             `${text}\n\nPerplexity A.I 검색결과: ${await getShortUrl(
