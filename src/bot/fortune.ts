@@ -23,10 +23,6 @@ export const initializeFortuneBot = async () => {
       adminToken: env.cmsAdminToken,
     });
 
-    console.log({
-      lastDate,
-    });
-
     const isFirstTime = lastDate === undefined;
 
     await interaction.deferReply();

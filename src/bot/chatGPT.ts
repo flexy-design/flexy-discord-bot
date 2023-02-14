@@ -24,17 +24,21 @@ export const initializeChatGPTBot = async () => {
     // * 채팅에 답장 스레드 만들어서 메세지 작성하기
     if (message.channel.id === questionChannelId) {
       // * 3단계 채팅을 읽어와서 인공지능에게 질문하기
+      const replyMessage = await message.reply(
+        "인공지능이 답변을 작성하는 중이에요..."
+      );
       try {
-        const replyMessage = await message.reply(
-          "인공지능이 답변을 처리하는 중이에요..."
-        );
         const text = await questionToAI(message.content);
         await replyMessage.edit(text);
-        await message.react("👍");
+
+        const random = Math.floor(Math.random() * 3) + 1;
+        if (random === 1) await message.react("👍");
+        if (random === 2) await message.react("👏");
+        if (random === 3) await message.react("🙏");
       } catch (e) {
         console.log(e);
-        message.reply(
-          "인공지능이 답변을 처리하는 중에 오류가 발생했어요.\n잠시 후 다시 시도해주세요."
+        replyMessage.edit(
+          "Open AI 서버가 현재 트래픽이 많아 연결이 어렵다네요.\n조금 있다가 다시 시도해주시면 응답해드릴게요!"
         );
       }
     }
