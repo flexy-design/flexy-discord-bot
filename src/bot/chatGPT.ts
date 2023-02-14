@@ -56,7 +56,7 @@ export const initializeChatGPTBot = async () => {
           );
         } else {
           replyMessage.edit(
-            "Open AI 서버가 현재 트래픽이 많아 연결이 어렵다네요.\n대신 Perplexity A.I 에서 검색결과를 보여드릴게요!\n\n" +
+            "Open AI 서버가 현재 트래픽이 많아 연결이 어렵다네요.\n대신 Perplexity A.I 에서 검색결과를 보여드릴게요!\n\nPerplexity A.I 검색결과: " +
               (await getShortUrl(perplexityUrl))
           );
         }
