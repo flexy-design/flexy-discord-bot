@@ -52,18 +52,18 @@ export const initializeHouseWelcomeBot = () => {
   let isRunning = false;
 
   // * cron every 21:30 (UTC+9)
-  cron.schedule(
-    "0 00 21 * * *",
-    async () => {
-      await axios.post(env.welcomeHouseWebHookUrl, {
-        content: dinnerText,
-      });
-    },
-    {
-      scheduled: true,
-      timezone: "Asia/Seoul",
-    }
-  );
+  // cron.schedule(
+  //   "0 00 21 * * *",
+  //   async () => {
+  //     await axios.post(env.welcomeHouseWebHookUrl, {
+  //       content: dinnerText,
+  //     });
+  //   },
+  //   {
+  //     scheduled: true,
+  //     timezone: "Asia/Seoul",
+  //   }
+  // );
 
   // * cron every 10 second
   cron.schedule("*/10 * * * * *", async () => {
