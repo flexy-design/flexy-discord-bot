@@ -20,16 +20,15 @@ export const initializeCreateAPITokenCommand = async () => {
       .from("discord_user")
       .upsert({
         discord_id: userId,
-        created_at: null,
-        token: null,
+        created_at: "now()",
+        token: "uuid_generate_v4()",
       })
+      .select()
       .single();
 
     try {
       if (response.data) {
-        const { token } = response.data as {
-          token: string;
-        };
+        const { token } = response.data;
 
         await user.send(
           `**__API 코드가 발급되었습니다!__**
