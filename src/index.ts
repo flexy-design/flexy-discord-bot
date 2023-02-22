@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { initializeChatGPTBot } from "./bot/chatGPT";
+import { initializeCreateAPITokenCommand } from "./bot/createAPIToken";
 import { initializeFortuneBot } from "./bot/fortune";
 import { initializeHouseWelcomeBot } from "./bot/houseCodeWelcome";
 import { initializeMemeBot } from "./bot/meme";
@@ -34,4 +35,7 @@ void (async () => {
 
   await initializeFortuneBot();
   console.log(chalk.blue(`Fortune Bot is initialized...`));
+
+  await initializeCreateAPITokenCommand();
+  console.log(chalk.blue(`Create API Token Command is initialized...`));
 })();

@@ -7,6 +7,7 @@ export const initializeCreateAPITokenCommand = async () => {
     if (interaction.commandName !== "api코드-발급") return;
 
     const userId = interaction.user.id;
+    await interaction.reply("API 코드를 DM으로 발송해드릴게요!");
     const user = await houseCodeClient.users.fetch(userId);
     await user.send(
       `***API 코드가 발급되었습니다!***
