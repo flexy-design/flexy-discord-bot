@@ -20,8 +20,8 @@ export const initializeCreateAPITokenCommand = async () => {
       .from("discord_user")
       .upsert({
         discord_id: userId,
-        created_at: "now()",
-        token: "uuid_generate_v4()",
+        created_at: "",
+        token: "",
       })
       .select()
       .single();
