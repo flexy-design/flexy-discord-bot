@@ -12,7 +12,6 @@ export const initializeCreateAPITokenCommand = async () => {
     await interaction.editReply({
       content: "API 코드를 DM으로 발송 중이에요...",
     });
-    const user = await houseCodeClient.users.fetch(userId);
     console.log("debug", {
       discord_id: userId,
     });
@@ -20,8 +19,6 @@ export const initializeCreateAPITokenCommand = async () => {
       .from("discord_user")
       .upsert({
         discord_id: userId,
-        created_at: "",
-        token: "",
       })
       .select()
       .single();
@@ -30,6 +27,7 @@ export const initializeCreateAPITokenCommand = async () => {
       if (response.data) {
         const { token } = response.data;
 
+        const user = await houseCodeClient.users.fetch(userId);
         await user.send(
           `**__API 코드가 발급되었습니다!__**
 아래 명령어를 복사해서 붙여넣어주세요!
