@@ -13,8 +13,13 @@ export const initializeCreateAPITokenCommand = async () => {
       content: "API 코드를 DM으로 발송 중이에요...",
     });
     const user = await houseCodeClient.users.fetch(userId);
+    console.log("debug", {
+      discord_id: userId,
+    });
     const newToken = await supabase.from("discord_user").upsert({
       discord_id: userId,
+      created_at: null,
+      token: null,
     });
 
     try {
@@ -48,8 +53,9 @@ A.I에게 질문할 수 있게 해주는 명령어의
         throw new Error("Failed to create API token");
       }
     } catch (e) {
+      console.log(e);
       await interaction.editReply({
-        content: `API 코드 발급에 실패했어요. 다시 시도해주세요.`,
+        content: `API 코드 발급에 실패했어요. 잠시 후 다시 시도해주세요.`,
       });
     }
   });
