@@ -16,15 +16,18 @@ export const initializeCreateAPITokenCommand = async () => {
     console.log("debug", {
       discord_id: userId,
     });
-    const newToken = await supabase.from("discord_user").upsert({
-      discord_id: userId,
-      created_at: null,
-      token: null,
-    });
+    const response = await supabase
+      .from("discord_user")
+      .upsert({
+        discord_id: userId,
+        created_at: null,
+        token: null,
+      })
+      .single();
 
     try {
-      if (newToken.data) {
-        const { token } = newToken.data as {
+      if (response.data) {
+        const { token } = response.data as {
           token: string;
         };
 
@@ -50,6 +53,7 @@ A.I에게 질문할 수 있게 해주는 명령어의
 **__질문할 수 있는 npx housecode 라는 명령어를 제공하고 있습니다.)__**`,
         });
       } else {
+        console.log(response);
         throw new Error("Failed to create API token");
       }
     } catch (e) {
