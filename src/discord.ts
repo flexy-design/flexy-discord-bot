@@ -31,10 +31,10 @@ houseCodeCommands.set("운세", {
 });
 
 const createAPICommand = new SlashCommandBuilder()
-  .setName("API코드 발급")
+  .setName("api코드-발급")
   .setDescription("npx housecode 에서 사용할 API코드를 발급합니다.");
 
-houseCodeCommands.set("API코드 발급", {
+houseCodeCommands.set("api코드-발급", {
   data: createAPICommand,
 });
 
