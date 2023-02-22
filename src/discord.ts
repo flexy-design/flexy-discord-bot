@@ -22,19 +22,25 @@ export const houseCodeClient = new Client({
 export const houseCodeCommands = new Collection();
 (client as any).commands = houseCodeCommands;
 
-const commandData = new SlashCommandBuilder()
+const fortuneCommand = new SlashCommandBuilder()
   .setName("운세")
   .setDescription("하루 한 번 내 운세를 봅니다.");
 
 houseCodeCommands.set("운세", {
-  data: commandData,
-  async execute(interaction) {
-    await interaction.reply("운세를 봅니다.");
-  },
+  data: fortuneCommand,
+});
+
+const createAPICommand = new SlashCommandBuilder()
+  .setName("API코드 발급")
+  .setDescription("npx housecode 에서 사용할 API코드를 발급합니다.");
+
+houseCodeCommands.set("API코드 발급", {
+  data: createAPICommand,
 });
 
 // enable command
 houseCodeClient.on("ready", async () => {
   console.log("The client is ready!");
-  await houseCodeClient.application?.commands.create(commandData);
+  await houseCodeClient.application?.commands.create(fortuneCommand);
+  await houseCodeClient.application?.commands.create(createAPICommand);
 });

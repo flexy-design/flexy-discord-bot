@@ -15,4 +15,5 @@ export const env = {
   accessKeyIdOfS3: process.env.AWS_S3_ACCESS_KEY || "",
   secretAccessKeyOfS3: process.env.AWS_S3_SECRET_KEY || "",
   openAIKey: process.env.OPEN_AI_KEY || "",
+  supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY || "",
 };
